@@ -1,23 +1,33 @@
 <script>
   import Match from "./Match.svelte";
   import TipMatch from "./TipMatch.svelte";
+  import db from "../firebase";
 
   let modifyTip = false;
   let matches = [];
   let deadline = "";
-  let currentTipper = "Nils";
-  const tippers = [
-    "Nils",
-    "Johan",
-    "Sebastian",
-    "Anna",
-    "Thord",
-    "Petter",
-    "Anne-Li",
-  ];
-  let coupon = ["1", "", "", "", "", "", "", "", "", "", "", "", ""];
+  let currentTipper = "";
+  let tippers = [];
+  let coupon = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
-  async function getData() {
+  async function getCoupon() {
+    db.collection("tips")
+      .get()
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => doc.data())[0];
+        coupon = data.coupon;
+        currentTipper = data.author;
+      });
+  }
+  async function getUsers() {
+    db.collection("participants")
+      .get()
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => doc.data().names)[0];
+        tippers = data;
+      });
+  }
+  async function getMatches() {
     const siteUrl =
       "https://cors-anywhere.herokuapp.com/https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/4673%7C";
     await fetch(siteUrl)
@@ -43,74 +53,82 @@
     } else {
       coupon[index] = `${coupon[index]}${value}`;
     }
-  }
 
-  getData();
+    db.collection("tips").doc("coupon").set({
+      author: currentTipper,
+      coupon: coupon,
+    });
+  }
+  getUsers();
+  getMatches();
+  getCoupon();
 </script>
 
 <main>
   <h1>stryktipset</h1>
-  <!-- {#if matches.length === 0} -->
-  <p>
-    Hittar inga matcher. Kom tillbaka på torsdag, då brukar veckans rad släppas!
-  </p>
-  <!-- {:else} -->
-  <p>{deadline}</p>
-  <button on:click={toggleModifyTip}>
-    {modifyTip ? "Spara tips" : "Ändra tips"}
-  </button>
-  <table>
-    <tr>
-      <th />
-      <th>
-        <h2>Hemma</h2>
-      </th>
-      <th />
-      <th />
-      <th>
-        <h2>Borta</h2>
-      </th>
-      {#if !modifyTip}
+  {#if matches.length === 0}
+    <p>
+      Hittar inga matcher. Kom tillbaka på torsdag, då brukar veckans rad
+      släppas!
+    </p>
+  {:else}
+    <p>{deadline}</p>
+    <button on:click={toggleModifyTip}>
+      {modifyTip ? "Spara tips" : "Ändra tips"}
+    </button>
+    <table>
+      <tr>
+        <th />
         <th>
-          <h2>1/X/2</h2>
+          <h2>Hemma</h2>
         </th>
-      {/if}
-      <th>
-        {#if modifyTip}
-          <select bind:value={currentTipper}>
-            {#each tippers as tipper}
-              <option value={tipper}>
-                {tipper}
-              </option>
-            {/each}
-          </select>
-        {:else}
-          <h2>{currentTipper}</h2>
+        <th />
+        <th />
+        <th>
+          <h2>Borta</h2>
+        </th>
+        {#if !modifyTip}
+          <th>
+            <h2>1 | X | 2</h2>
+          </th>
         {/if}
-      </th>
-    </tr>
-    {#if modifyTip}
-      {#each matches as matchData, index}
-        <TipMatch
-          match={matchData.match}
-          couponRow={coupon[index]}
-          {index}
-          on:editCoupon={editCouponHandler}
-        />
-      {/each}
-    {:else}
-      {#each matches as matchData, index}
-        <Match match={matchData.match} coupon={coupon[index]} {index} />
-      {/each}
-    {/if}
-  </table>
-  <!-- {/if} -->
+        <th>
+          {#if modifyTip}
+            <select bind:value={currentTipper}>
+              {#each tippers as tipper}
+                <option value={tipper}>
+                  {tipper}
+                </option>
+              {/each}
+            </select>
+          {:else}
+            <h2>{currentTipper}</h2>
+          {/if}
+        </th>
+      </tr>
+      {#if modifyTip}
+        {#each matches as matchData, index}
+          <TipMatch
+            match={matchData.match}
+            couponRow={coupon[index]}
+            {index}
+            on:editCoupon={editCouponHandler}
+          />
+        {/each}
+      {:else}
+        {#each matches as matchData, index}
+          <Match match={matchData.match} coupon={coupon[index]} {index} />
+        {/each}
+      {/if}
+    </table>
+  {/if}
 </main>
 
 <style>
   main {
     text-align: center;
     padding: 1em;
+    color: #000;
   }
 
   table {
