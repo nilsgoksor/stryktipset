@@ -1,9 +1,10 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+
   export let match;
   export let index;
   export let couponRow;
 
-  import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   const homeTeam = match.participants[0].name;
@@ -46,19 +47,21 @@
 </tr>
 
 <style>
-  td {
-    padding: 0px 10px;
-  }
-
   p {
     font-size: 1em;
     font-weight: 200;
   }
 
   .tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #f6f6f6;
   }
   .selected {
     background-color: #00cc00;
+  }
+  button {
+    margin: 5px;
   }
 </style>
