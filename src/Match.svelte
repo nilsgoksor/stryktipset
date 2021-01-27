@@ -1,6 +1,7 @@
 <script>
   import { afterUpdate } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import GiWhistle from "svelte-icons/gi/GiWhistle.svelte";
 
   export let match;
   export let coupon;
@@ -12,16 +13,19 @@
   const awayScore = parseInt(match.result[0].away);
   const currentResult =
     homeScore > awayScore ? "1" : homeScore < awayScore ? "2" : "X";
-
   const couponHas1 = coupon.includes("1");
   const couponHasX = coupon.includes("X");
   const couponHas2 = coupon.includes("2");
+
+  const kickoff = new Date(match.matchStart);
+  const matchStarted = kickoff - Date.now() < 0;
+  const matchFinished = match.status === "Avslutad";
 
   const dispatch = createEventDispatcher();
 
   afterUpdate(() => {
     const userCorrect = coupon.includes(currentResult);
-    let information = "";
+    let requirement = "";
     if (!userCorrect) {
       const goalsNeededFor1 =
         homeScore > awayScore ? 0 : 1 + awayScore - homeScore;
@@ -36,25 +40,25 @@
       );
 
       if (goalsNeededFor1 === fewestGoalsNeeded && couponHas1) {
-        information = information.concat(
+        requirement = requirement.concat(
           `${homeTeam} score ${goalsNeededFor1}`
         );
       }
       if (goalsNeededForX === fewestGoalsNeeded && couponHasX) {
-        if (information.length > 0) {
-          information = information.concat(" or ");
+        if (requirement.length > 0) {
+          requirement = requirement.concat(" or ");
         }
-        information = information.concat(
+        requirement = requirement.concat(
           `${
             homeScore > awayScore ? `${awayTeam}` : `${homeTeam}`
           } score ${goalsNeededForX}`
         );
       }
       if (goalsNeededFor2 === fewestGoalsNeeded && couponHas2) {
-        if (information.length > 0) {
-          information = information.concat(" or ");
+        if (requirement.length > 0) {
+          requirement = requirement.concat(" or ");
         }
-        information = information.concat(
+        requirement = requirement.concat(
           `${awayTeam} score ${goalsNeededFor2}`
         );
       }
@@ -62,7 +66,7 @@
     dispatch("editResult", {
       index: index,
       correct: coupon.includes(currentResult),
-      information: information,
+      requirement: requirement,
     });
   });
 </script>
@@ -72,21 +76,34 @@
     <p>{index + 1}</p>
   </td>
   <td>
-    <p>{homeTeam}</p>
+    <p><strong>{homeTeam}</strong></p>
   </td>
+  {#if matchStarted || matchFinished}
+    <td>
+      <p>{homeScore}</p>
+    </td>
+    <td>
+      <p>{awayScore}</p>
+    </td>
+  {:else}
+    <td>{kickoff.getHours()}</td>
+    <td>{`${kickoff.getMinutes() < 10 ? "0" : ""}${kickoff.getMinutes()}`}</td>
+  {/if}
   <td>
-    <p>{homeScore}</p>
+    <p><strong>{awayTeam}</strong></p>
   </td>
-  <td>
-    <p>{awayScore}</p>
-  </td>
-  <td>
-    <p>{awayTeam}</p>
-  </td>
-  <td class="tip">
+  <td
+    class="tip"
+    class:correct={matchFinished && coupon.includes(currentResult)}
+    class:failed={matchFinished && !coupon.includes(currentResult)}
+  >
     <p>{currentResult}</p>
   </td>
-  <td class="tip" class:correct={coupon.includes(currentResult)}>
+  <td
+    class="tip"
+    class:failed={matchFinished && !coupon.includes(currentResult)}
+    class:correct={coupon.includes(currentResult)}
+  >
     <p>
       {couponHas1 ? "1" : ""}
       {couponHasX ? "X" : ""}
@@ -96,15 +113,14 @@
 </tr>
 
 <style>
-  p {
-    font-size: 1em;
-    font-weight: 200;
-  }
-
   .tip {
     background-color: #f6f6f6;
+    margin: 0px;
   }
   .correct {
     background-color: #00cc00;
+  }
+  .failed {
+    background-color: #ff3e00;
   }
 </style>

@@ -6,25 +6,26 @@
   import db from "../firebase";
 
   let modifyTip = false;
+  let tipStarted = false;
   let couponMatches = [];
   let deadline = "";
   let currentTipper = "";
   let tippers = [];
   let coupon = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
   let result = [
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
-    { correct: false, information: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
+    { correct: false, requirement: "" },
   ];
 
   async function getCoupon() {
@@ -50,7 +51,7 @@
     await fetch(siteUrl)
       .then((res) =>
         res.json().then((data) => {
-          deadline = data.draw?.regCloseDescription;
+          deadline = new Date(data.draw?.regCloseTime);
           couponMatches = data.draw?.drawEvents;
         })
       )
@@ -79,8 +80,18 @@
   function editResultHandler(event) {
     result[event.detail.index] = {
       correct: event.detail.correct,
-      information: event.detail.information,
+      requirement: event.detail.requirement,
     };
+  }
+
+  function getDeadlineStatus() {
+    const timeToDeadLine = (deadline - Date.now()) / (36e5).toFixed(2);
+    if (timeToDeadLine < 0) {
+      tipStarted = true;
+      return "Tipset är igång!";
+    } else {
+      return `Deadline om ${timeToDeadLine}h`;
+    }
   }
   getUsers();
   getMatches();
@@ -95,9 +106,11 @@
       släppas!
     </p>
   {:else}
-    <Information {result} />
     <div>
-      <p>{deadline}</p>
+      {#if tipStarted}
+        <p>{getDeadlineStatus()}</p>
+      {/if}
+      <Information {result} />
       <button on:click={toggleModifyTip}>
         {modifyTip ? "Spara kupong" : "Ändra kupong"}
       </button>
@@ -108,8 +121,10 @@
         <th>
           <h2>Hemma</h2>
         </th>
-        <th />
-        <th />
+        {#if !modifyTip}
+          <th />
+          <th />
+        {/if}
         <th>
           <h2>Borta</h2>
         </th>
@@ -167,8 +182,6 @@
 <style>
   main {
     text-align: center;
-    padding: 1em;
-    color: #000;
   }
 
   table {
@@ -178,7 +191,7 @@
   h1 {
     color: #ff3e00;
     text-transform: uppercase;
-    font-size: 3.5em;
+    font-size: 3em;
     font-weight: 100;
     margin: 0px;
     margin-bottom: 20px;
@@ -191,22 +204,30 @@
     font-size: 1em;
   }
 
-  h2 {
+  main :global(h2) {
     font-size: 1.5em;
     font-weight: 100;
   }
 
-  p {
+  main :global(p) {
     font-size: 1em;
     font-weight: 200;
   }
 
-  th {
-    padding: 0px 5px;
+  /* styles for browsers larger than 960px; */
+  @media only screen and (min-width: 960px) {
+    main :global(th) {
+      padding: 0px 15px;
+    }
   }
+
+  div {
+    margin: 10px 0px;
+  }
+
   select {
     margin: auto;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: 100;
   }
 </style>

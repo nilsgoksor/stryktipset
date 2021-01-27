@@ -7,6 +7,7 @@
 
 <div class="info-wrapper">
   <h1
+    class="score"
     class:bad={result.filter((r) => r.correct).length < BAD_RESULT}
     class:great={result.filter((r) => r.correct).length > GREEAT_RESULT}
   >
@@ -14,9 +15,9 @@
   </h1>
   <div class="req-events">
     {#if result.filter((r) => r.correct).length >= BAD_RESULT}
-      {#each result.filter((r) => r.information.length > 0) as resultData}
+      {#each result.filter((r) => r.requirement.length > 0) as resultData}
         <div>
-          <p>{resultData.information}</p>
+          <p>{resultData.requirement}</p>
         </div>
       {/each}
     {:else}
@@ -35,24 +36,23 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    margin: 25px 0px;
     margin-left: 25px;
   }
-  h1 {
+  .score {
     color: #00cc00;
     text-transform: uppercase;
     font-size: 10em;
     font-weight: 100;
-    margin: 0px;
+    margin: 25px 0px;
   }
   .bad {
     color: #ff3e00;
   }
   .great {
-    color: #d8d808;
+    color: #e0eb05;
   }
   p {
-    font-size: 1em;
-    font-weight: 200;
     margin: 5px;
     text-align: left;
   }
