@@ -1,7 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import GiWhistle from "svelte-icons/gi/GiWhistle.svelte";
 
   export let match;
   export let coupon;
@@ -67,6 +66,8 @@
       index: index,
       correct: coupon.includes(currentResult),
       requirement: requirement,
+      matchStarted: matchStarted,
+      matchFinished: matchFinished,
     });
   });
 </script>
@@ -122,5 +123,6 @@
   }
   .failed {
     background-color: #ff3e00;
+    color: #fff;
   }
 </style>

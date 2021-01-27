@@ -9,8 +9,8 @@
   const homeTeam = match.participants[0].name;
   const awayTeam = match.participants[1].name;
 
-  function handleEditCoupon(value) {
-    dispatch("editCoupon", {
+  function handleUpdateCouponRow(value) {
+    dispatch("updateCouponRow", {
       index: index,
       value: value,
     });
@@ -30,19 +30,19 @@
   <td class="tip">
     <button
       class:selected={couponRow?.includes("1")}
-      on:click={() => handleEditCoupon("1")}
+      on:click={() => handleUpdateCouponRow("1")}
     >
       <p>1</p>
     </button>
     <button
       class:selected={couponRow?.includes("X")}
-      on:click={() => handleEditCoupon("X")}
+      on:click={() => handleUpdateCouponRow("X")}
     >
       <p>X</p>
     </button>
     <button
       class:selected={couponRow?.includes("2")}
-      on:click={() => handleEditCoupon("2")}
+      on:click={() => handleUpdateCouponRow("2")}
     >
       <p>2</p>
     </button>
@@ -50,16 +50,17 @@
 </tr>
 
 <style>
-  p {
-    margin: 0px;
+  button {
+    margin: 0px 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    cursor: pointer;
   }
   .tip {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    background-color: #f6f6f6;
+    justify-content: center;
   }
-
   .selected {
     background-color: #00cc00;
   }
