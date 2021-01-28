@@ -24,20 +24,21 @@
 
   async function getMatches() {
     const siteUrl =
-      "https://cors-anywhere.herokuapp.com/https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/4673%7C";
+      "https://cors-anywhere.herokuapp.com/https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/";
     await fetch(siteUrl)
       .then((res) =>
         res.json().then((data) => {
-          deadline = new Date(data.draw?.regCloseTime);
-          matchData = data.draw?.drawEvents;
+          const draws = data.draws[0];
+          deadline = new Date(draws.regCloseTime);
+          matchData = draws.drawEvents;
           dataLoaded = true;
         })
       )
       .catch(() => (dataLoaded = true));
   }
-
   function toggleModifyTip() {
     modifyTip = !modifyTip;
+    getCoupon();
   }
 
   function getDeadlineStatus() {
@@ -49,6 +50,7 @@
       return `Deadline om ${timeToDeadLine}h`;
     }
   }
+
   getMatches();
   getCoupon();
 </script>

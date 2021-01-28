@@ -28,28 +28,36 @@
     const value = event.detail.value;
     const index = event.detail.index;
 
-    if (coupon[index].includes(value)) {
+    if (coupon[index]?.includes(value)) {
       coupon[index] = coupon[index].replace(value, "");
     } else {
       coupon[index] = `${coupon[index]}${value}`;
     }
-
     db.collection("tips").doc("coupon").set({
       author: currentTipper,
       coupon: coupon,
     });
   }
 
+  function handleUpdatetipper() {
+    db.collection("tips").doc("coupon").set({
+      author: currentTipper,
+      coupon: coupon,
+    });
+  }
+
+  function handleResetCoupon() {
+    const resetCoupon = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
+    coupon.forEach((e, index) => (coupon[index] = ""));
+    db.collection("tips").doc("coupon").set({
+      author: currentTipper,
+      coupon: resetCoupon,
+    });
+  }
+
   getUsers();
 </script>
 
-<div class="guards-div">
-  {#if guards > normalGuards}
-    <h2>{"Fler garderingar vi brukar ha"}</h2>
-  {:else if guards < normalGuards}
-    <h2>{"Färre garderingar vi brukar ha"}</h2>
-  {/if}
-</div>
 <table>
   <tr>
     <th>
@@ -62,7 +70,11 @@
       <h2>Borta</h2>
     </th>
     <th>
-      <select bind:value={currentTipper} class="tipper-select">
+      <select
+        bind:value={currentTipper}
+        on:blur={handleUpdatetipper}
+        class="tipper-select"
+      >
         {#each tippers as tipper}
           <option value={tipper}>
             {tipper}
@@ -80,6 +92,18 @@
     />
   {/each}
 </table>
+<div class="guards-div">
+  {#if guards > normalGuards}
+    <h2>{"Fler garderingar än vi brukar ha"}</h2>
+  {:else if guards < normalGuards}
+    <h2>{"Färre garderingar än vi brukar ha"}</h2>
+  {/if}
+</div>
+{#if guards > 0}
+  <button class="primary-button" on:click={handleResetCoupon}>
+    {"Nollställ kupong"}
+  </button>
+{/if}
 
 <style>
   .tipper-select {

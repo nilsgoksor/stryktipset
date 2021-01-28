@@ -8,22 +8,24 @@
 
   const homeTeam = match.participants[0].name;
   const awayTeam = match.participants[1].name;
-  const homeScore = parseInt(match.result[0].home);
-  const awayScore = parseInt(match.result[0].away);
+  const homeScore =
+    match.result.length > 0 ? parseInt(match?.result[0].home) : 0;
+  const awayScore =
+    match.result.length > 0 ? parseInt(match?.result[0].away) : 0;
   const currentResult =
     homeScore > awayScore ? "1" : homeScore < awayScore ? "2" : "X";
-  const couponHas1 = coupon.includes("1");
-  const couponHasX = coupon.includes("X");
-  const couponHas2 = coupon.includes("2");
+  const couponHas1 = coupon?.includes("1");
+  const couponHasX = coupon?.includes("X");
+  const couponHas2 = coupon?.includes("2");
 
   const kickoff = new Date(match.matchStart);
-  const matchStarted = kickoff - Date.now() < 0;
+  const matchStarted = match.status === "Inte startat";
   const matchFinished = match.status === "Avslutad";
 
   const dispatch = createEventDispatcher();
 
   afterUpdate(() => {
-    const userCorrect = coupon.includes(currentResult);
+    const userCorrect = coupon?.includes(currentResult);
     let requirement = "";
     if (!userCorrect) {
       const goalsNeededFor1 =
@@ -64,7 +66,7 @@
     }
     dispatch("editResult", {
       index: index,
-      correct: coupon.includes(currentResult),
+      correct: coupon?.includes(currentResult),
       requirement: requirement,
       matchStarted: matchStarted,
       matchFinished: matchFinished,
@@ -79,7 +81,7 @@
   <td>
     <p><strong>{homeTeam}</strong></p>
   </td>
-  {#if matchStarted || matchFinished}
+  {#if !matchStarted || matchFinished}
     <td>
       <p>{homeScore}</p>
     </td>
@@ -95,15 +97,15 @@
   </td>
   <td
     class="tip"
-    class:correct={matchFinished && coupon.includes(currentResult)}
-    class:failed={matchFinished && !coupon.includes(currentResult)}
+    class:correct={matchFinished && coupon?.includes(currentResult)}
+    class:failed={matchFinished && !coupon?.includes(currentResult)}
   >
     <p>{currentResult}</p>
   </td>
   <td
     class="tip"
-    class:failed={matchFinished && !coupon.includes(currentResult)}
-    class:correct={coupon.includes(currentResult)}
+    class:failed={matchFinished && !coupon?.includes(currentResult)}
+    class:correct={coupon?.includes(currentResult)}
   >
     <p>
       {couponHas1 ? "1" : ""}
