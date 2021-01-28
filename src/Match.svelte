@@ -83,14 +83,14 @@
   </td>
   {#if !matchStarted || matchFinished}
     <td>
-      <p>{homeScore}</p>
-    </td>
-    <td>
-      <p>{awayScore}</p>
+      <p>{homeScore - awayScore}</p>
     </td>
   {:else}
-    <td>{kickoff.getHours()}</td>
-    <td>{`${kickoff.getMinutes() < 10 ? "0" : ""}${kickoff.getMinutes()}`}</td>
+    <td
+      >{kickoff.getHours()}:{`${
+        kickoff.getMinutes() < 10 ? "0" : ""
+      }${kickoff.getMinutes()}`}</td
+    >
   {/if}
   <td>
     <p><strong>{awayTeam}</strong></p>
@@ -126,5 +126,9 @@
   .failed {
     background-color: #ff3e00;
     color: #fff;
+  }
+
+  p {
+    margin: 0px;
   }
 </style>

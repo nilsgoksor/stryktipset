@@ -110,6 +110,6 @@
     max-width: 650px;
   }
   main :global(td) {
-    height: 55px;
+    height: 22px;
   }
 </style>

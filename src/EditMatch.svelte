@@ -64,4 +64,8 @@
   .selected {
     background-color: #00cc00;
   }
+
+  p {
+    margin: 0px;
+  }
 </style>

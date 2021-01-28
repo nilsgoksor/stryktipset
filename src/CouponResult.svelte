@@ -102,7 +102,7 @@
           </div>
         {/each}
       {:else}
-        <p>May the foce be with you</p>
+        <p>May the force be with you</p>
       {/if}
     </div>
   </div>
@@ -151,7 +151,6 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    margin: 25px 0px;
     margin-left: 25px;
   }
   .score {
@@ -159,7 +158,7 @@
     text-transform: uppercase;
     font-size: 10em;
     font-weight: 100;
-    margin: 25px 0px;
+    margin: 0px;
   }
   .bad {
     color: #ff3e00;

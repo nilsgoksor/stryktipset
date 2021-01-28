@@ -43,7 +43,6 @@
       <h2>Hemma</h2>
     </th>
     <th />
-    <th />
     <th>
       <h2>Borta</h2>
     </th>

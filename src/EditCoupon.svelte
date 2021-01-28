@@ -58,6 +58,13 @@
   getUsers();
 </script>
 
+<div class="guards-div">
+  {#if guards > normalGuards}
+    <h2>{"Fler garderingar än vi brukar ha"}</h2>
+  {:else if guards < normalGuards}
+    <h2>{"Färre garderingar än vi brukar ha"}</h2>
+  {/if}
+</div>
 <table>
   <tr>
     <th>
@@ -92,13 +99,7 @@
     />
   {/each}
 </table>
-<div class="guards-div">
-  {#if guards > normalGuards}
-    <h2>{"Fler garderingar än vi brukar ha"}</h2>
-  {:else if guards < normalGuards}
-    <h2>{"Färre garderingar än vi brukar ha"}</h2>
-  {/if}
-</div>
+
 {#if guards > 0}
   <button class="primary-button" on:click={handleResetCoupon}>
     {"Nollställ kupong"}
@@ -118,5 +119,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 167px;
   }
 </style>
