@@ -173,7 +173,7 @@
   }
   .money-rain {
     width: 100%;
-    max-width: 800px;
+    max-width: 700px;
     position: absolute;
     top: 0px;
     display: none;
@@ -181,7 +181,7 @@
   @media screen and (max-width: 780px) {
     .money-rain {
       max-width: 100%;
-      height: 400px;
+      height: 350px;
     }
   }
 
