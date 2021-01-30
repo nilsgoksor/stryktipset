@@ -122,7 +122,8 @@
   <canvas
     id="canvas"
     class="money-rain"
-    class:show={result.filter((r) => r.correct).length > GREEAT_RESULT}
+    class:show={result.filter((r) => r.correct).length > GREEAT_RESULT &&
+      result.find((r) => r.matchStarted)}
   />
   {#if result.filter((r) => r.correct).length > GREEAT_RESULT}
     <a
@@ -156,7 +157,7 @@
   .score {
     color: #00cc00;
     text-transform: uppercase;
-    font-size: 10em;
+    font-size: 8em;
     font-weight: 100;
     margin: 0px;
   }
@@ -173,7 +174,7 @@
   }
   .money-rain {
     width: 100%;
-    max-width: 700px;
+    max-width: 600px;
     position: absolute;
     top: 0px;
     display: none;
@@ -181,7 +182,7 @@
   @media screen and (max-width: 780px) {
     .money-rain {
       max-width: 100%;
-      height: 350px;
+      height: 250px;
     }
   }
 

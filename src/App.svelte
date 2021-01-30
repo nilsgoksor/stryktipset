@@ -97,6 +97,7 @@
   main :global(h2) {
     font-size: 1.5em;
     font-weight: 100;
+    margin: 5px 0px;
   }
 
   main :global(p) {
@@ -110,6 +111,6 @@
     max-width: 650px;
   }
   main :global(td) {
-    height: 22px;
+    height: 40px;
   }
 </style>

@@ -19,7 +19,7 @@
   const couponHas2 = coupon?.includes("2");
 
   const kickoff = new Date(match.matchStart);
-  const matchStarted = match.status === "Inte startat";
+  const matchStarted = match.status !== "Inte startat";
   const matchFinished = match.status === "Avslutad";
 
   const dispatch = createEventDispatcher();
@@ -118,7 +118,6 @@
 <style>
   .tip {
     background-color: #f6f6f6;
-    margin: 0px;
   }
   .correct {
     background-color: #00cc00;

@@ -119,6 +119,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 117px;
+    margin-top: 61px;
   }
 </style>
