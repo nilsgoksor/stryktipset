@@ -81,9 +81,9 @@
   <td>
     <p><strong>{homeTeam}</strong></p>
   </td>
-  {#if !matchStarted || matchFinished}
+  {#if matchStarted || matchFinished}
     <td>
-      <p>{homeScore - awayScore}</p>
+      <p>{homeScore} - {awayScore}</p>
     </td>
   {:else}
     <td
