@@ -6,8 +6,8 @@
 
   const dispatch = createEventDispatcher();
 
-  const homeTeam = match.participants[0].name;
-  const awayTeam = match.participants[1].name;
+  const homeTeam = match.home_long;
+  const awayTeam = match.away_long;
 
   function handleUpdateCouponRow(value) {
     dispatch("updateCouponRow", {

@@ -6,22 +6,10 @@
   export let matchData;
   export let coupon;
   export let currentTipper;
+  export let payouts;
+  export let deadline;
 
-  let result = [
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-    { correct: false, requirement: "" },
-  ];
+  let result = [];
 
   function editResultHandler(event) {
     result[event.detail.index] = {
@@ -29,11 +17,12 @@
       requirement: event.detail.requirement,
       matchStarted: event.detail.matchStarted,
       matchFinished: event.detail.matchFinished,
+      data: event.detail.data,
     };
   }
 </script>
 
-<CouponResult {result} />
+<CouponResult {result} {payouts} {deadline} />
 <table>
   <tr>
     <th>
@@ -64,7 +53,7 @@
   </tr>
   {#each matchData as match, index}
     <Match
-      match={match.match}
+      {match}
       coupon={coupon[index]}
       {index}
       on:editResult={editResultHandler}

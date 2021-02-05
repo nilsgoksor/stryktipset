@@ -6,21 +6,19 @@
   export let coupon;
   export let index;
 
-  const homeTeam = match.participants[0].name;
-  const awayTeam = match.participants[1].name;
-  const homeScore =
-    match.result.length > 0 ? parseInt(match?.result[0].home) : 0;
-  const awayScore =
-    match.result.length > 0 ? parseInt(match?.result[0].away) : 0;
+  const homeTeam = match.home_long;
+  const awayTeam = match.away_long;
+  const homeScore = match.home_score;
+  const awayScore = match.away_score;
   const currentResult =
     homeScore > awayScore ? "1" : homeScore < awayScore ? "2" : "X";
   const couponHas1 = coupon?.includes("1");
   const couponHasX = coupon?.includes("X");
   const couponHas2 = coupon?.includes("2");
 
-  const kickoff = new Date(match.matchStart);
-  const matchStarted = match.status !== "Inte startat";
-  const matchFinished = match.status === "Avslutad";
+  const kickoff = new Date(match.event_start.raw);
+  const matchStarted = match.match_started;
+  const matchFinished = match.match_finished;
 
   const dispatch = createEventDispatcher();
 
@@ -70,6 +68,7 @@
       requirement: requirement,
       matchStarted: matchStarted,
       matchFinished: matchFinished,
+      data: coupon,
     });
   });
 </script>
@@ -81,9 +80,9 @@
   <td>
     <p><strong>{homeTeam}</strong></p>
   </td>
-  {#if matchStarted || matchFinished}
+  {#if matchStarted}
     <td>
-      <p>{homeScore} - {awayScore}</p>
+      <p>{`${homeScore} - ${awayScore}${matchFinished ? " (FT)" : ""}`}</p>
     </td>
   {:else}
     <td
@@ -95,11 +94,7 @@
   <td>
     <p><strong>{awayTeam}</strong></p>
   </td>
-  <td
-    class="tip"
-    class:correct={matchFinished && coupon?.includes(currentResult)}
-    class:failed={matchFinished && !coupon?.includes(currentResult)}
-  >
+  <td class="tip">
     <p>{currentResult}</p>
   </td>
   <td

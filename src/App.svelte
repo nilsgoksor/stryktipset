@@ -5,11 +5,11 @@
 
   let dataLoaded = false;
   let modifyTip = false;
-  let tipStarted = false;
   let deadline = "";
 
   let matchData = [];
   let coupon = [];
+  let payouts = [];
   let currentTipper = "";
 
   async function getCoupon() {
@@ -22,37 +22,37 @@
       });
   }
 
-  async function getMatches() {
-    const siteUrl =
-      "https://cors-anywhere.herokuapp.com/https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/";
-    await fetch(siteUrl)
+  async function getMatchData() {
+    const roundsUrl =
+      "https://cors-anywhere.herokuapp.com/https://liverattning.se/api/v1/results?product=1";
+    await fetch(roundsUrl)
       .then((res) =>
         res.json().then((data) => {
-          const draws = data.draws[0];
-          deadline = new Date(draws.regCloseTime);
-          matchData = draws.drawEvents;
-          dataLoaded = true;
+          const roundId = data[0].round_ids[0];
+          const couponUrl = `https://cors-anywhere.herokuapp.com/https://liverattning.se/api/v1/result?round_id=${roundId}`;
+          fetch(couponUrl)
+            .then((res) =>
+              res.json().then((data) => {
+                const utcDeadline = new Date(data[0].close_time.raw);
+                deadline = utcDeadline.setHours(utcDeadline.getHours());
+                matchData = data[0].events;
+                payouts = data[0].payouts;
+                dataLoaded = true;
+              })
+            )
+            .catch(() => (dataLoaded = true));
         })
       )
       .catch(() => (dataLoaded = true));
   }
+
   function toggleModifyTip() {
     modifyTip = !modifyTip;
     getCoupon();
   }
 
-  function getDeadlineStatus() {
-    const timeToDeadLine = (deadline - Date.now()) / (36e5).toFixed(2);
-    if (timeToDeadLine < 0) {
-      tipStarted = true;
-      return "Tipset är igång!";
-    } else {
-      return `Deadline om ${timeToDeadLine}h`;
-    }
-  }
-
-  getMatches();
   getCoupon();
+  getMatchData();
 </script>
 
 <main>
@@ -67,13 +67,10 @@
       <p>Loading...</p>
     {/if}
   {:else}
-    {#if tipStarted}
-      <p>{getDeadlineStatus()}</p>
-    {/if}
     {#if modifyTip}
       <EditCoupon {matchData} {coupon} {currentTipper} />
     {:else}
-      <Coupon {matchData} {coupon} {currentTipper} />
+      <Coupon {matchData} {coupon} {currentTipper} {deadline} {payouts} />
     {/if}
     <button class="primary-button" on:click={toggleModifyTip}>
       {modifyTip ? "Spara kupong" : "Ändra kupong"}

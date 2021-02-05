@@ -2,9 +2,28 @@
   import { afterUpdate } from "svelte";
 
   export let result;
+  export let payouts;
+  export let deadline;
 
   const BAD_RESULT = 6;
   const GREEAT_RESULT = 10;
+
+  function getScore(result) {
+    return result.filter((r) => r.correct).length;
+  }
+
+  function getPayouts(result, payouts) {
+    const score = getScore(result);
+
+    let payoutInfo = [];
+    payouts?.forEach((payout) => {
+      const payoutValue = parseInt(payout.name.replace(" rätt", ""));
+      if (score >= payoutValue) {
+        payoutInfo.push(`${payout.name} ger ${payout.amount}`);
+      }
+    });
+    return payoutInfo;
+  }
 
   afterUpdate(() => {
     const context = canvas.getContext("2d");
@@ -22,7 +41,7 @@
     const symbols = ["$", "¢", "¥", "€", "￡", "kr"];
 
     const objPack = [];
-    const gravity = 0.01;
+    const gravity = 0.005;
 
     function randomInt(min, max) {
       return Math.floor(min + Math.random() * (max - min + 1));
@@ -77,62 +96,67 @@
           objPack.splice(0, 1);
         }
       }
-
       requestAnimationFrame(update);
     }
-
     update();
   });
 </script>
 
 <div class="coupon-res">
-  <div class="info-wrapper">
-    <h1
-      class="score"
-      class:bad={result.filter((r) => r.correct).length < BAD_RESULT}
-      class:great={result.filter((r) => r.correct).length > GREEAT_RESULT}
-    >
-      {result.filter((r) => r.correct).length}
-    </h1>
-    <div class="req-events">
-      {#if result.filter((r) => r.correct).length >= BAD_RESULT}
-        {#each result.filter((r) => r.requirement.length > 0 && !r.matchFinished) as resultData}
-          <div>
-            <p>{resultData.requirement}</p>
-          </div>
-        {/each}
-      {:else}
-        <p>May the force be with you</p>
-      {/if}
-    </div>
-  </div>
-  <p>
-    {#if result.find((r) => r.matchFinished)}
-      {#if result.find((r) => !r.matchFinished)}
-        {`Hoppet om tröja  ${
-          result.filter((res) => !res.matchFinished || res.correct).length || 0
-        } lever!`}
-      {:else}
-        {`Grattis till tröja ${
-          result.filter((res) => !res.matchFinished || res.correct).length || 0
-        }!`}
-      {/if}
-    {/if}
-  </p>
   <canvas
     id="canvas"
     class="money-rain"
-    class:show={result.filter((r) => r.correct).length > GREEAT_RESULT &&
+    class:show={getScore(result) > GREEAT_RESULT &&
       result.find((r) => r.matchStarted)}
   />
-  {#if result.filter((r) => r.correct).length > GREEAT_RESULT}
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      href="https://spela.svenskaspel.se/stryktipset/1_4674"
-      class="great"
-    >
-      {`Det luktar vinst! Tryck här för att se hur mycket :)`}
+  {#if result.find((r) => r.matchStarted)}
+    <div class="info-wrapper">
+      <h1
+        class="score"
+        class:bad={getScore(result) < BAD_RESULT}
+        class:great={getScore(result) > GREEAT_RESULT}
+      >
+        {getScore(result)}
+      </h1>
+      <div class="req-events">
+        {#if getScore(result) >= BAD_RESULT}
+          {#each result.filter((r) => r.requirement.length > 0 && !r.matchFinished) as resultData}
+            <div>
+              <p>{resultData.requirement}</p>
+            </div>
+          {/each}
+        {:else}
+          <p>May the force be with you</p>
+        {/if}
+      </div>
+    </div>
+    <p>
+      {#if result.find((r) => r.matchFinished)}
+        {#if result.find((r) => !r.matchFinished)}
+          {`Hoppet om tröja  ${
+            result.filter((res) => !res.matchFinished || res.correct).length ||
+            0
+          } lever!`}
+        {:else}
+          {`Grattis till tröja ${
+            result.filter((res) => !res.matchFinished || res.correct).length ||
+            0
+          }!`}
+        {/if}
+      {/if}
+    </p>
+    {#each getPayouts(result, payouts) as payout}
+      <p>
+        {payout}
+      </p>
+    {/each}
+  {:else}
+    <a href="https://spela.svenskaspel.se/stryktipset/" target="_blank">
+      <p>
+        {`Deadline kl ${new Date(deadline).getHours()}:${new Date(
+          deadline
+        ).getMinutes()}`}. Klicka här för att skicka in ditt tips!
+      </p>
     </a>
   {/if}
 </div>
@@ -167,11 +191,12 @@
   .great {
     color: #ffd700;
     z-index: 20;
+    font-weight: 300;
   }
   p {
-    margin: 5px;
     text-align: left;
   }
+
   .money-rain {
     width: 100%;
     max-width: 600px;

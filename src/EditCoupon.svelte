@@ -60,9 +60,9 @@
 
 <div class="guards-div">
   {#if guards > normalGuards}
-    <h2>{"Fler garderingar än vi brukar ha"}</h2>
+    <p>{"Fler garderingar än vi brukar ha"}</p>
   {:else if guards < normalGuards}
-    <h2>{"Färre garderingar än vi brukar ha"}</h2>
+    <p>{"Färre garderingar än vi brukar ha"}</p>
   {/if}
 </div>
 <table>
@@ -92,7 +92,7 @@
   </tr>
   {#each matchData as match, index}
     <EditMatch
-      match={match.match}
+      {match}
       couponRow={coupon[index]}
       {index}
       on:updateCouponRow={handleUpdateCouponRow}
@@ -114,11 +114,6 @@
     min-width: 125px;
   }
   .guards-div {
-    height: 100px;
     color: #ff3e00;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 61px;
   }
 </style>
