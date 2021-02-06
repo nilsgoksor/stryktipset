@@ -5,12 +5,12 @@
 
   let dataLoaded = false;
   let modifyTip = false;
-  let deadline = "";
 
   let matchData = [];
   let coupon = [];
   let payouts = [];
   let currentTipper = "";
+  let deadline = "";
 
   async function getCoupon() {
     db.collection("tips")
@@ -33,8 +33,8 @@
           fetch(couponUrl)
             .then((res) =>
               res.json().then((data) => {
-                const utcDeadline = new Date(data[0].close_time.raw);
-                deadline = utcDeadline.setHours(utcDeadline.getHours());
+                deadline = data[0].close_time.format;
+
                 matchData = data[0].events;
                 payouts = data[0].payouts;
                 dataLoaded = true;
@@ -50,7 +50,6 @@
     modifyTip = !modifyTip;
     getCoupon();
   }
-
   getCoupon();
   getMatchData();
 </script>

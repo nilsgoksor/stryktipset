@@ -16,7 +16,7 @@
   const couponHasX = coupon?.includes("X");
   const couponHas2 = coupon?.includes("2");
 
-  const kickoff = new Date(match.event_start.raw);
+  const kickoff = match.event_start.format.replace("Idag ", "");
   const matchStarted = match.match_started;
   const matchFinished = match.match_finished;
 
@@ -85,11 +85,7 @@
       <p>{`${homeScore} - ${awayScore}${matchFinished ? " (FT)" : ""}`}</p>
     </td>
   {:else}
-    <td
-      >{kickoff.getHours()}:{`${
-        kickoff.getMinutes() < 10 ? "0" : ""
-      }${kickoff.getMinutes()}`}</td
-    >
+    <td>{kickoff}</td>
   {/if}
   <td>
     <p><strong>{awayTeam}</strong></p>

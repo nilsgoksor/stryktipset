@@ -1,6 +1,5 @@
 <script>
   import { afterUpdate } from "svelte";
-
   export let result;
   export let payouts;
   export let deadline;
@@ -153,9 +152,7 @@
   {:else}
     <a href="https://spela.svenskaspel.se/stryktipset/" target="_blank">
       <p>
-        {`Deadline kl ${new Date(deadline).getHours()}:${new Date(
-          deadline
-        ).getMinutes()}`}. Klicka här för att skicka in ditt tips!
+        {`${deadline} är det deadline. Klicka här för att skicka in ditt tips!`}
       </p>
     </a>
   {/if}
