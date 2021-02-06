@@ -192,6 +192,7 @@
   }
   p {
     text-align: left;
+    margin: 0px;
   }
 
   .money-rain {

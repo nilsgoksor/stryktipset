@@ -10,8 +10,7 @@
   const awayTeam = match.away_long;
   const homeScore = match.home_score;
   const awayScore = match.away_score;
-  const currentResult =
-    homeScore > awayScore ? "1" : homeScore < awayScore ? "2" : "X";
+  const currentResult = match.outcome;
   const couponHas1 = coupon?.includes("1");
   const couponHasX = coupon?.includes("X");
   const couponHas2 = coupon?.includes("2");
