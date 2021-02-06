@@ -24,17 +24,16 @@
 
   async function getMatchData() {
     const roundsUrl =
-      "https://cors-anywhere.herokuapp.com/https://liverattning.se/api/v1/results?product=1";
+      "https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/results?product=1";
     await fetch(roundsUrl)
       .then((res) =>
         res.json().then((data) => {
           const roundId = data[0].round_ids[0];
-          const couponUrl = `https://cors-anywhere.herokuapp.com/https://liverattning.se/api/v1/result?round_id=${roundId}`;
+          const couponUrl = `https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/result?round_id=${roundId}`;
           fetch(couponUrl)
             .then((res) =>
               res.json().then((data) => {
                 deadline = data[0].close_time.format;
-
                 matchData = data[0].events;
                 payouts = data[0].payouts;
                 dataLoaded = true;
