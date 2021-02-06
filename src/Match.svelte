@@ -39,25 +39,25 @@
 
       if (goalsNeededFor1 === fewestGoalsNeeded && couponHas1) {
         requirement = requirement.concat(
-          `${homeTeam} score ${goalsNeededFor1}`
+          `${homeTeam} måste göra ${goalsNeededFor1}`
         );
       }
       if (goalsNeededForX === fewestGoalsNeeded && couponHasX) {
         if (requirement.length > 0) {
-          requirement = requirement.concat(" or ");
+          requirement = requirement.concat(" / ");
         }
         requirement = requirement.concat(
           `${
             homeScore > awayScore ? `${awayTeam}` : `${homeTeam}`
-          } score ${goalsNeededForX}`
+          } måste göra ${goalsNeededForX}`
         );
       }
       if (goalsNeededFor2 === fewestGoalsNeeded && couponHas2) {
         if (requirement.length > 0) {
-          requirement = requirement.concat(" or ");
+          requirement = requirement.concat(" / ");
         }
         requirement = requirement.concat(
-          `${awayTeam} score ${goalsNeededFor2}`
+          `${awayTeam} måste göra ${goalsNeededFor2}`
         );
       }
     }
