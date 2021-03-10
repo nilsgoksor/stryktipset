@@ -2,6 +2,11 @@
   import db from "../firebase";
   import { afterUpdate } from "svelte";
   import EditMatch from "./EditMatch.svelte";
+  import { createEventDispatcher } from "svelte";
+  import FaEraser from "svelte-icons/fa/FaEraser.svelte";
+  import FaRegCheckCircle from "svelte-icons/fa/FaRegCheckCircle.svelte";
+
+  const dispatch = createEventDispatcher();
 
   export let matchData;
   export let coupon;
@@ -55,20 +60,34 @@
     });
   }
 
+  function toggleModifyTip() {
+    dispatch("handleUpdateCouponRow");
+  }
+
   getUsers();
 </script>
 
+<div class="icon-container">
+  {#if guards > 0}
+    <div class="icon" on:click={handleResetCoupon}>
+      <FaEraser />
+    </div>
+  {/if}
+  <div class="icon" on:click={toggleModifyTip}>
+    <FaRegCheckCircle />
+  </div>
+</div>
 <div class="guards-div">
   {#if guards > normalGuards}
-    <p>{"Fler garderingar än vi brukar ha"}</p>
+    <p>Fler garderingar än vi brukar ha</p>
   {:else if guards < normalGuards}
-    <p>{"Färre garderingar än vi brukar ha"}</p>
+    <p>Färre garderingar än vi brukar ha</p>
   {/if}
 </div>
 <table>
   <tr>
     <th>
-      <h2>#</h2>
+      <h2 />
     </th>
     <th>
       <h2>Hemma</h2>
@@ -100,12 +119,6 @@
   {/each}
 </table>
 
-{#if guards > 0}
-  <button class="primary-button" on:click={handleResetCoupon}>
-    {"Nollställ kupong"}
-  </button>
-{/if}
-
 <style>
   .tipper-select {
     margin: auto;
@@ -115,5 +128,18 @@
   }
   .guards-div {
     color: #ff3e00;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin: 12px;
+  }
+
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

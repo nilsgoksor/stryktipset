@@ -18,7 +18,6 @@
   const kickoff = match.event_start.format.replace("Idag ", "");
   const matchStarted = match.match_started;
   const matchFinished = match.match_finished;
-
   const dispatch = createEventDispatcher();
 
   afterUpdate(() => {

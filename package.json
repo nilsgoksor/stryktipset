@@ -19,6 +19,7 @@
   "dependencies": {
     "firebase": "^8.2.4",
     "sirv-cli": "^1.0.0",
+    "svelte-icons": "^2.1.0",
     "svelte-media-query": "^1.0.0"
   }
 }

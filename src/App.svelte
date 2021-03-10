@@ -64,15 +64,22 @@
     {:else}
       <p>Loading...</p>
     {/if}
+  {:else if modifyTip}
+    <EditCoupon
+      {matchData}
+      {coupon}
+      {currentTipper}
+      on:handleUpdateCouponRow={toggleModifyTip}
+    />
   {:else}
-    {#if modifyTip}
-      <EditCoupon {matchData} {coupon} {currentTipper} />
-    {:else}
-      <Coupon {matchData} {coupon} {currentTipper} {deadline} {payouts} />
-    {/if}
-    <button class="primary-button" on:click={toggleModifyTip}>
-      {modifyTip ? "Spara kupong" : "Ändra kupong"}
-    </button>
+    <Coupon
+      {matchData}
+      {coupon}
+      {currentTipper}
+      {deadline}
+      {payouts}
+      on:handleUpdateCouponRow={toggleModifyTip}
+    />
   {/if}
 </main>
 
