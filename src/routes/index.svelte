@@ -29,33 +29,11 @@
 			const coupon = await fetch(couponUrl);
 			const couponData = await coupon.json();
 
-			let tipper = '';
-			let tipperCoupon = [];
-			await db
-				.collection('tips')
-				.get()
-				.then((querySnapshot) => {
-					const data = querySnapshot.docs.map((doc) => doc.data())[0];
-					tipperCoupon = data.coupon;
-					tipper = data.author;
-				});
-
-			let participants = [];
-			await db
-				.collection('participants')
-				.get()
-				.then((querySnapshot) => {
-					participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
-				});
-
 			return {
 				props: {
 					deadline: couponData[0].close_time.format,
 					matchData: couponData[0].events,
-					payouts: couponData[0].payouts,
-					tipperCoupon,
-					participants,
-					tipper
+					payouts: couponData[0].payouts
 				}
 			};
 		}
@@ -76,9 +54,24 @@
 	export let deadline: string;
 	export let matchData: MatchI[];
 	export let payouts: PayoutI[];
-	export let tipper: string;
-	export let tipperCoupon: string[];
-	export let participants: string[];
+
+	export let tipper: string | undefined = undefined;
+	export let tipperCoupon: string[] | undefined = undefined;
+	export let participants: string[] | undefined = undefined;
+
+	db.collection('tips')
+		.get()
+		.then((querySnapshot) => {
+			const data = querySnapshot.docs.map((doc) => doc.data())[0];
+			tipperCoupon = data.coupon;
+			tipper = data.author;
+		});
+
+	db.collection('participants')
+		.get()
+		.then((querySnapshot) => {
+			participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
+		});
 
 	export let editCoupon: boolean = false;
 
@@ -89,20 +82,22 @@
 
 <main>
 	<h1>stryktipset</h1>
-	<Result {matchData} {tipperCoupon} {payouts} />
-	<Settings
-		{deadline}
-		{tipperCoupon}
-		{editCoupon}
-		{tipper}
-		{participants}
-		on:toggleEditCoupon={toggleEditCoupon}
-	/>
+	{#if typeof participants !== 'undefined' && typeof tipperCoupon !== 'undefined' && typeof tipper !== 'undefined'}
+		<Result {matchData} {tipperCoupon} {payouts} />
+		<Settings
+			{deadline}
+			{tipperCoupon}
+			{editCoupon}
+			{tipper}
+			{participants}
+			on:toggleEditCoupon={toggleEditCoupon}
+		/>
 
-	{#if !editCoupon}
-		<Coupon {matchData} {tipperCoupon} />
-	{:else}
-		<EditCoupon {matchData} {tipperCoupon} {tipper} />
+		{#if !editCoupon}
+			<Coupon {matchData} {tipperCoupon} />
+		{:else}
+			<EditCoupon {matchData} {tipperCoupon} {tipper} />
+		{/if}
 	{/if}
 </main>
 

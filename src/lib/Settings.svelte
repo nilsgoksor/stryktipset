@@ -45,7 +45,6 @@
 		{:else}
 			<p class="tipper-text">{tipper}</p>
 		{/if}
-
 		<div class="icon" on:click={toggleModifyTip}>
 			<MdModeEdit />
 		</div>
