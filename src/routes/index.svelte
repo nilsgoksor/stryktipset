@@ -50,6 +50,7 @@
 	import Settings from '$lib/Settings.svelte';
 	import Result from '$lib/Result.svelte';
 	import db from '../firebase/db';
+	import { onMount } from 'svelte';
 
 	export let deadline: string;
 	export let matchData: MatchI[];
@@ -59,19 +60,21 @@
 	export let tipperCoupon: string[] | undefined = undefined;
 	export let participants: string[] | undefined = undefined;
 
-	db.collection('tips')
-		.get()
-		.then((querySnapshot) => {
-			const data = querySnapshot.docs.map((doc) => doc.data())[0];
-			tipperCoupon = data.coupon;
-			tipper = data.author;
-		});
+	onMount(async () => {
+		db.collection('tips')
+			.get()
+			.then((querySnapshot) => {
+				const data = querySnapshot.docs.map((doc) => doc.data())[0];
+				tipperCoupon = data.coupon;
+				tipper = data.author;
+			});
 
-	db.collection('participants')
-		.get()
-		.then((querySnapshot) => {
-			participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
-		});
+		db.collection('participants')
+			.get()
+			.then((querySnapshot) => {
+				participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
+			});
+	});
 
 	export let editCoupon: boolean = false;
 

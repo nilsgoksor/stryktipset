@@ -1,15 +1,16 @@
 {
-	"name": "my-app",
+	"name": "stryktipset",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte-kit dev",
-		"build": "svelte-kit build && svelte-kit adapt",
+		"build": "svelte-kit build",
 		"start": "svelte-kit start",
 		"lint": "prettier --check . && eslint --ignore-path .gitignore .",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "next",
+		"@sveltejs/adapter-static": "^1.0.0-next.4",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
@@ -26,7 +27,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-static": "^1.0.0-next.0",
 		"firebase": "^8.3.2",
 		"svelte-icons": "^2.1.0",
 		"svelte-media-query": "^1.0.0"
