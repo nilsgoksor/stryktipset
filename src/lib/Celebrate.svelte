@@ -49,4 +49,10 @@
 	.celebrate-img {
 		height: 155px;
 	}
+
+	@media screen and (max-width: 600px) {
+		.celebrate {
+			left: 0px;
+		}
+	}
 </style>

@@ -114,7 +114,7 @@
 	main :global(p) {
 		margin: 0px;
 		white-space: nowrap;
-		font-weight: 100;
+		font-weight: 200;
 		color: #fff;
 	}
 
@@ -122,7 +122,7 @@
 		text-transform: uppercase;
 		font-size: 4rem;
 		font-weight: 100;
-		color: #258d25;
+		color: #4e5850;
 		margin: 0px 5px;
 	}
 </style>
