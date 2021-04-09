@@ -7,6 +7,11 @@
 	export let match: MatchI;
 	export let index: number;
 	export let tipperCouponRow: string[];
+
+	const kickoffDate = new Date(match.event_start.raw);
+	const matchStart = `${kickoffDate.getHours()}:${
+		kickoffDate.getMinutes() >= 10 ? kickoffDate.getMinutes() : `0${kickoffDate.getMinutes()}`
+	}`;
 </script>
 
 <div
@@ -26,7 +31,9 @@
 			{:else if match.match_started}
 				<div class="icon"><FaRegClock /></div>
 			{:else}
-				<p>{match.event_start.format.replace('Idag', '')}</p>
+				<p>
+					{matchStart}
+				</p>
 			{/if}
 		</div>
 

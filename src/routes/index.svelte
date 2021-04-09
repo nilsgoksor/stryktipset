@@ -9,7 +9,7 @@
 		outcome: string;
 		match_finished: boolean;
 		match_started: boolean;
-		event_start: { format: string };
+		event_start: { raw: string };
 	}
 	[];
 	export interface PayoutI {
@@ -49,6 +49,7 @@
 
 			deadline = couponData[0].close_time.format;
 			matchData = couponData[0].events;
+			console.log('matchData', matchData);
 			payouts = couponData[0].payouts;
 
 			db.collection('tips')
