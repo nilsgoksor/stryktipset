@@ -3,15 +3,13 @@
 	import FaRegClock from 'svelte-icons/fa/FaRegClock.svelte';
 	import type { MatchI } from 'src/routes/index.svelte';
 	import OutcomeRequirements from './OutcomeRequirements.svelte';
+	import moment from 'moment';
 
 	export let match: MatchI;
 	export let index: number;
 	export let tipperCouponRow: string[];
 
-	const kickoffDate = new Date(match.event_start.raw);
-	const matchStart = `${kickoffDate.getHours()}:${
-		kickoffDate.getMinutes() >= 10 ? kickoffDate.getMinutes() : `0${kickoffDate.getMinutes()}`
-	}`;
+	const kickoffDate = moment(match.event_start.raw).format('H:mm');
 </script>
 
 <div
@@ -32,7 +30,7 @@
 				<div class="icon"><FaRegClock /></div>
 			{:else}
 				<p>
-					{matchStart}
+					{kickoffDate}
 				</p>
 			{/if}
 		</div>
