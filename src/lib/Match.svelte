@@ -9,7 +9,7 @@
 	export let index: number;
 	export let tipperCouponRow: string[];
 
-	const kickoffDate = moment(match.event_start.raw).format('H:mm');
+	const kickoffDate = moment(match.event_start.raw.replace(' UTC', '')).format('H:mm');
 </script>
 
 <div
