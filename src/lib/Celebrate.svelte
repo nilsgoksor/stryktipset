@@ -7,8 +7,7 @@
 		'https://media.giphy.com/media/1X65fH4wRhr4l6Mfh6/giphy.gif',
 		'https://media.giphy.com/media/kGp7NNQSphvJPvCHt6/giphy.gif',
 		'https://media.giphy.com/media/LM9DAeihcA2p4ZuhQi/giphy.gif',
-		'https://media.giphy.com/media/fYqRXWcYSFpfSAplum/giphy.gif',
-		'https://giphy.com/gifs/MOLATV-coach-premierleague-pelatih-Y0PcVB4uE22ejmq8ZT'
+		'https://media.giphy.com/media/fYqRXWcYSFpfSAplum/giphy.gif'
 	];
 
 	let tick = writable(0, () => {
