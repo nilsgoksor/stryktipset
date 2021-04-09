@@ -17,31 +17,6 @@
 		winners: number;
 		amount: string;
 	}
-	export async function load({ fetch }) {
-		const roundsUrl =
-			'https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/results?product=1';
-		const rounds = await fetch(roundsUrl);
-		if (rounds.ok) {
-			const roundsData = await rounds.json();
-			const currentRoundId = roundsData[0].round_ids[0];
-
-			const couponUrl = `https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/result?round_id=${currentRoundId}`;
-			const coupon = await fetch(couponUrl);
-			const couponData = await coupon.json();
-
-			return {
-				props: {
-					deadline: couponData[0].close_time.format,
-					matchData: couponData[0].events,
-					payouts: couponData[0].payouts
-				}
-			};
-		}
-		return {
-			status: rounds.status,
-			error: new Error(`Could not load ${roundsUrl}`)
-		};
-	}
 </script>
 
 <script lang="ts">
@@ -61,19 +36,35 @@
 	export let participants: string[] | undefined = undefined;
 
 	onMount(async () => {
-		db.collection('tips')
-			.get()
-			.then((querySnapshot) => {
-				const data = querySnapshot.docs.map((doc) => doc.data())[0];
-				tipperCoupon = data.coupon;
-				tipper = data.author;
-			});
+		const roundsUrl =
+			'https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/results?product=1';
+		const rounds = await fetch(roundsUrl);
+		if (rounds.ok) {
+			const roundsData = await rounds.json();
+			const currentRoundId = roundsData[0].round_ids[0];
 
-		db.collection('participants')
-			.get()
-			.then((querySnapshot) => {
-				participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
-			});
+			const couponUrl = `https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/result?round_id=${currentRoundId}`;
+			const coupon = await fetch(couponUrl);
+			const couponData = await coupon.json();
+
+			deadline = couponData[0].close_time.format;
+			matchData = couponData[0].events;
+			payouts = couponData[0].payouts;
+
+			db.collection('tips')
+				.get()
+				.then((querySnapshot) => {
+					const data = querySnapshot.docs.map((doc) => doc.data())[0];
+					tipperCoupon = data.coupon;
+					tipper = data.author;
+				});
+
+			db.collection('participants')
+				.get()
+				.then((querySnapshot) => {
+					participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
+				});
+		}
 	});
 
 	export let editCoupon: boolean = false;
