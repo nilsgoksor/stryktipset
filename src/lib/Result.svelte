@@ -9,6 +9,7 @@
 	export let tipperCoupon: string[];
 	export let payouts: PayoutI[];
 
+	const started = matchData.find((match) => match.match_started);
 	const finishedGames = matchData.filter((match) => match.match_finished);
 	const nonfinishedGames = matchData.filter((match) => !match.match_finished);
 	const correctGames = matchData.filter((match, index) =>
@@ -31,9 +32,11 @@
 		.join(', ');
 </script>
 
-<h1 class:good={correctGames.length > GREEAT_RESULT} class:bad={correctGames.length < BAD_RESULT}>
-	{correctGames.length}
-</h1>
+{#if started}
+	<h1 class:good={correctGames.length > GREEAT_RESULT} class:bad={correctGames.length < BAD_RESULT}>
+		{correctGames.length}
+	</h1>
+{/if}
 {#if finishedGames.length > 0 && nonfinishedGames.length > 0}
 	<p class="result-text">Med hopp om tröja {13 - lostPoints.length}</p>
 {/if}
