@@ -61,7 +61,7 @@
 }
 
 .match-status {
-	width: 40px;
+	min-width: 40px;
 	padding: 0px 5px;
 }
 
