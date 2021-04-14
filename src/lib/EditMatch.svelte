@@ -3,6 +3,7 @@
 	import FaRegClock from 'svelte-icons/fa/FaRegClock.svelte';
 	import type { MatchI } from 'src/routes/index.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import moment from 'moment';
 
 	export let match: MatchI;
 	export let index: number;
@@ -16,6 +17,10 @@
 			value: value
 		});
 	};
+
+	const kickoffDate = moment(match.event_start.raw.replace(' UTC', ''))
+		.add(2, 'hours')
+		.format('H:mm');
 </script>
 
 <div class="match">
@@ -30,7 +35,7 @@
 			{:else if match.match_started}
 				<div class="icon"><FaRegClock /></div>
 			{:else}
-				<p>{match.event_start.format.replace('Idag', '')}</p>
+				<p>{kickoffDate}</p>
 			{/if}
 		</div>
 	</div>
@@ -91,6 +96,7 @@
 		outline: none;
 		border: none;
 		cursor: pointer;
+		font-size: 16px;
 	}
 	.selected {
 		background-color: #258d25;

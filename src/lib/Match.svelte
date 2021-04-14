@@ -112,7 +112,8 @@
 		background-color: transparent;
 		outline: none;
 		border: none;
-		opacity: 0.33;
+		opacity: 0.25;
+		font-size: 16px;
 	}
 	.selected {
 		opacity: 1;

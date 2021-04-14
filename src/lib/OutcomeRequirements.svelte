@@ -55,7 +55,7 @@
 	{:else if awayOutcomeRequirements.length > 0}
 		<MediaQuery query="(max-width: 600px)" let:matches>
 			{#if matches}
-				{`gör ${awayOutcomeRequirements}`}
+				{`[${awayOutcomeRequirements}]`}
 			{:else}
 				{`måste göra ${awayOutcomeRequirements} mål`}
 			{/if}
@@ -65,9 +65,10 @@
 
 <style>
 	.outcome-requirement {
-		color: #edddcb;
 		margin: 0;
 		margin-left: 5px;
-		opacity: 0.5;
+		color: #edddcb;
+		opacity: 1;
+		font-weight: bold;
 	}
 </style>

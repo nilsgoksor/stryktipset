@@ -105,7 +105,7 @@
 	main :global(p) {
 		margin: 0px;
 		white-space: nowrap;
-		font-weight: 200;
+		font-weight: 100;
 		color: #fff;
 	}
 
