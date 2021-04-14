@@ -37,8 +37,8 @@
 		{correctGames.length}
 	</h1>
 {/if}
-{#if finishedGames.length > 0 && nonfinishedGames.length > 0}
-	<p class="result-text">Med hopp om tröja {13 - lostPoints.length}</p>
+{#if finishedGames.length > 0 && nonfinishedGames.length > 0 && correctGames.length !== 13 - lostPoints.length}
+	<p class="result-text">Med hopp om tröja {13 - lostPoints.length}!</p>
 {/if}
 {#if nonfinishedGames.length === 0}
 	<p class="result-text">Grattis till tröja {correctGames.length}!</p>
