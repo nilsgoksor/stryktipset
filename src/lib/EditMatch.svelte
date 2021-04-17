@@ -69,21 +69,21 @@
 			class:selected={tipperCouponRow?.includes('1')}
 			on:click={() => handleUpdateCouponRow('1')}
 		>
-			<p>1</p>
+			<p class="match-outcome-text">1</p>
 		</button>
 		<button
 			class="button"
 			class:selected={tipperCouponRow?.includes('X')}
 			on:click={() => handleUpdateCouponRow('X')}
 		>
-			<p>X</p>
+			<p class="match-outcome-text">X</p>
 		</button>
 		<button
 			class="button"
 			class:selected={tipperCouponRow?.includes('2')}
 			on:click={() => handleUpdateCouponRow('2')}
 		>
-			<p>2</p>
+			<p class="match-outcome-text">2</p>
 		</button>
 	</div>
 </div>
@@ -96,9 +96,12 @@
 		outline: none;
 		border: none;
 		cursor: pointer;
-		font-size: 16px;
 	}
 	.selected {
 		background-color: #258d25;
+	}
+
+	.match-outcome-text {
+		font-weight: bold;
 	}
 </style>

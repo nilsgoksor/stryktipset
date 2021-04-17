@@ -46,7 +46,7 @@
 		{#if homeOutcomeRequirements.length > 0}
 			<MediaQuery query="(max-width: 600px)" let:matches>
 				{#if matches}
-					{`[ ${homeOutcomeRequirements}] `}
+					{`[ ${homeOutcomeRequirements} ] `}
 				{:else}
 					{`måste göra ${homeOutcomeRequirements} mål`}
 				{/if}
@@ -67,7 +67,8 @@
 	.outcome-requirement {
 		margin: 0;
 		margin-left: 5px;
-		color: limegreen;
+		color: #fff;
+		font-weight: bold;
 		opacity: 1;
 	}
 </style>

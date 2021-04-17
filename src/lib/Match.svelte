@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="match-outcome">
-			<p>{match.outcome}</p>
+			<p class="match-outcome-text">{match.outcome}</p>
 		</div>
 
 		<div class="match-score">
@@ -51,7 +51,7 @@
 			<p class:winner={match.outcome === '1'}>
 				<MediaQuery query="(max-width: 600px)" let:matches>
 					{#if matches}
-						{match.home_long.length < 12 ? match.home_long : match.home_short}
+						{match.home_long.length < 13 ? match.home_long : match.home_short}
 					{:else}
 						{match.home_long}
 					{/if}
@@ -63,7 +63,7 @@
 			<p class:winner={match.outcome === '2'}>
 				<MediaQuery query="(max-width: 600px)" let:matches>
 					{#if matches}
-						{match.away_long.length < 12 ? match.away_long : match.away_short}
+						{match.away_long.length < 13 ? match.away_long : match.away_short}
 					{:else}
 						{match.away_long}
 					{/if}
@@ -74,13 +74,13 @@
 	</div>
 	<div class="match-tip">
 		<button class="button" class:selected={tipperCouponRow?.includes('1')} disabled>
-			<p>1</p>
+			<p class="match-outcome-text">1</p>
 		</button>
 		<button class="button" class:selected={tipperCouponRow?.includes('X')} disabled>
-			<p>X</p>
+			<p class="match-outcome-text">X</p>
 		</button>
 		<button class="button" class:selected={tipperCouponRow?.includes('2')} disabled>
-			<p>2</p>
+			<p class="match-outcome-text">2</p>
 		</button>
 	</div>
 </div>
@@ -113,9 +113,11 @@
 		outline: none;
 		border: none;
 		opacity: 0.25;
-		font-size: 16px;
 	}
 	.selected {
 		opacity: 1;
+	}
+	.match-outcome-text {
+		font-weight: bold;
 	}
 </style>
