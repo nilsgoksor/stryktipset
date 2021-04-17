@@ -107,7 +107,7 @@
 	}
 
 	.button {
-		width: 40px;
+		width: 35px;
 		height: 100%;
 		background-color: transparent;
 		outline: none;

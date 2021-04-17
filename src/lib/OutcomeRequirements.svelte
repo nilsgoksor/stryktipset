@@ -46,7 +46,7 @@
 		{#if homeOutcomeRequirements.length > 0}
 			<MediaQuery query="(max-width: 600px)" let:matches>
 				{#if matches}
-					{`[${homeOutcomeRequirements}]`}
+					{`[ ${homeOutcomeRequirements}] `}
 				{:else}
 					{`måste göra ${homeOutcomeRequirements} mål`}
 				{/if}
@@ -55,7 +55,7 @@
 	{:else if awayOutcomeRequirements.length > 0}
 		<MediaQuery query="(max-width: 600px)" let:matches>
 			{#if matches}
-				{`[${awayOutcomeRequirements}]`}
+				{`[ ${awayOutcomeRequirements} ]`}
 			{:else}
 				{`måste göra ${awayOutcomeRequirements} mål`}
 			{/if}
@@ -67,8 +67,7 @@
 	.outcome-requirement {
 		margin: 0;
 		margin-left: 5px;
-		color: #edddcb;
+		color: limegreen;
 		opacity: 1;
-		font-weight: bold;
 	}
 </style>
