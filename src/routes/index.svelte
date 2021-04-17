@@ -36,6 +36,12 @@
 	export let participants: string[] | undefined = undefined;
 
 	onMount(async () => {
+		fetchData();
+	});
+
+	async function fetchData() {
+		console.log('fetch');
+
 		const roundsUrl =
 			'https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/results?product=1';
 		const rounds = await fetch(roundsUrl);
@@ -65,11 +71,15 @@
 					participants = querySnapshot.docs.map((doc) => doc.data().names)[0];
 				});
 		}
-	});
+	}
 
 	export let editCoupon: boolean = false;
 
 	function toggleEditCoupon() {
+		console.log('toggle');
+		if (editCoupon) {
+			fetchData();
+		}
 		editCoupon = !editCoupon;
 	}
 </script>
