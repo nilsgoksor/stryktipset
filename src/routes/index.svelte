@@ -40,8 +40,6 @@
 	});
 
 	async function fetchData() {
-		console.log('fetch');
-
 		const roundsUrl =
 			'https://secret-ocean-49799.herokuapp.com/https://liverattning.se/api/v1/results?product=1';
 		const rounds = await fetch(roundsUrl);
@@ -76,7 +74,6 @@
 	export let editCoupon: boolean = false;
 
 	function toggleEditCoupon() {
-		console.log('toggle');
 		if (editCoupon) {
 			fetchData();
 		}
