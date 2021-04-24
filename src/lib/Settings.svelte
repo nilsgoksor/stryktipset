@@ -66,6 +66,7 @@
 		margin-top: 15px;
 		margin-bottom: 5px;
 		text-align: left;
+		height: 30px;
 	}
 
 	.tipper {
@@ -84,10 +85,8 @@
 	}
 
 	.tipper-select {
-		background-color: transparent;
-		color: #4e5850;
-		border: 1px solid #4e5850;
-		outline: none;
-		padding: 0px 5px;
+		background-color: #4e5850;
+		color: #fff;
+		border: 1px solid transparent;
 	}
 </style>

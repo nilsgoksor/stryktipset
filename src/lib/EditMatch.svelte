@@ -41,10 +41,10 @@
 	</div>
 	<div class="match-teams">
 		<div class="team-row">
-			<p>
+			<p class:winner={match.outcome === '1'}>
 				<MediaQuery query="(max-width: 600px)" let:matches>
 					{#if matches}
-						{match.home_long.length < 12 ? match.home_long : match.home_short}
+						{match.home_long.length < 13 ? match.home_long : match.home_short}
 					{:else}
 						{match.home_long}
 					{/if}
@@ -52,10 +52,10 @@
 			</p>
 		</div>
 		<div class="team-row">
-			<p>
+			<p class:winner={match.outcome === '2'}>
 				<MediaQuery query="(max-width: 600px)" let:matches>
 					{#if matches}
-						{match.away_long.length < 12 ? match.away_long : match.away_short}
+						{match.away_long.length < 13 ? match.away_long : match.away_short}
 					{:else}
 						{match.away_long}
 					{/if}

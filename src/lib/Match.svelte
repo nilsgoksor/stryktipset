@@ -101,10 +101,6 @@
 		opacity: 0.5;
 		box-shadow: none;
 	}
-	.icon {
-		height: 20px;
-		margin: 0 auto;
-	}
 
 	.button {
 		width: 35px;

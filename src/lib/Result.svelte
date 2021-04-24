@@ -16,8 +16,8 @@
 		tipperCoupon[index].includes(match.outcome)
 	);
 
-	const lostPoints = finishedGames.filter(
-		(match, index) => !tipperCoupon[index].includes(match.outcome)
+	const lostPoints = matchData.filter(
+		(match, index) => match.match_finished && !tipperCoupon[index].includes(match.outcome)
 	);
 
 	const payoutsAsString = payouts
